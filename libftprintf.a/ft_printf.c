@@ -2,15 +2,16 @@
 
 static int print_it(char c, va_list t)
 {
+    //still have to do : %p  %x  %X
     int i = 0;
     if (c == 'c')
         i += ft_putchar(va_arg(t, int));
     else if (c == 'd' || c == 'i')
         ft_putnbr(va_arg(t, int), &i);
     else if (c == 's')
-    {
         i += ft_putstr(va_arg(t, char*));
-    }
+    else if (c == 'u')
+        ft_putnbr_un(va_arg(t, unsigned int), &i);
     else
         i += ft_putchar(c);
     return (i);
@@ -41,6 +42,6 @@ int ft_printf(const char *str, ...)
 int main ()
 {
     int i = 0;
-    i = ft_printf ("simon is %s", "me so i am me :)");
+    i = ft_printf ("simon is %d", -14);
     // printf ("%d", i);
 }
