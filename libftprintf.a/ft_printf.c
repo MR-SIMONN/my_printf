@@ -42,7 +42,7 @@ int ft_printf(const char *str, ...)
         if (str[i] == '%' && str[i + 1] == '%')
            len += write (1, "%", 1);
         else if (str[i] == '%')
-            len += print_it(str[++i], str[i], tracker);
+            len += print_it(str[i + 1], str[i], tracker);
         else
             len += write (1, &str[i], 1);
         i++;
