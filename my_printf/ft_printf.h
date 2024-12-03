@@ -24,6 +24,6 @@ void	ft_putnbr_un(unsigned int n, int *i);
 int		ft_putstr(char *s);
 int		print_hex(unsigned int n, char c);
 int		print_address(void *p);
-int		ft_flags(char *s, int *i);
+int		ft_flags(char *s, int *i, va_list t);
 
 #endif
