@@ -30,7 +30,6 @@ ${NAME}: ${OBJS}
 
 clean:
 	@${RM} ${OBJS}
-bonus : all
 fclean: clean
 	@${RM} ${NAME}
 re: fclean all
