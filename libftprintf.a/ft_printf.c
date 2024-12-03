@@ -1,6 +1,19 @@
-#include "printf.h"
 
-static int print_it(char c, char r, va_list t)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 00:53:59 by moel-hai          #+#    #+#             */
+/*   Updated: 2024/12/01 05:07:10 by moel-hai         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
+int print_it(char c, va_list t)
 {
     int i = 0;
     if (c == 'c')
@@ -14,61 +27,40 @@ static int print_it(char c, char r, va_list t)
     else if (c == 'x' || c == 'X')
         i += print_hex(va_arg(t, unsigned int), c);
     else if (c == 'p')
-        i += print_adrress(va_arg(t, void *));
-    else if (r == '%' && c != '%')
-    {
-        i += ft_putchar(r);
-        i += ft_putchar(c);
-    }
+        i += print_address(va_arg(t, void *));
     else
-        i += ft_putchar(c);
+        i += ft_putchar (c);
     return (i);
+}
+int ft_check(char c)
+{
+    return (c == 'c' || c == 's' || c == 'd' || c == 'i' 
+            || c == 'x' || c == 'X' || c == 'p' || c == 'u');
 }
 
 int ft_printf(const char *str, ...)
 {
     int len;
     int i;
+
     va_list tracker;
     va_start (tracker, str);
-    if (!str)
-        return (-1);
-    if (write (1, 0, 0) == -1)
-        return (-1);
-    len = 0;
-    i = 0;
+    (1) && (len = 0, i = 0);
     while (str[i])
     {
-        if (str[i] == '%' && str[i + 1] == '%')
-           len += write (1, "%", 1);
-        else if (str[i] == '%')
-            len += print_it(str[i + 1], str[i], tracker);
+        if (str[i] == '%' && str[i + 1])
+        {
+            if (str[++i] == '%')
+                len += write(1, "%", 1);
+            if (str[i] == '#' || str[i] == '+' || str[i] == ' ')
+                len += ft_flags((char *)str, &i, tracker);
+            if (ft_check(str[i]))
+                len += print_it(str[i], tracker);
+        }
         else
-            len += write (1, &str[i], 1);
+            len += write(1, &str[i], 1);
         i++;
     }
     va_end (tracker);
-    if (len < 0)
-        len = -1;
     return (len);
 }
-// #include <stdio.h>
-// int main ()
-// {
-//     int i = 0;
-//     int *ptr = &i;
-//     i = ft_printf ("simon is %p\n%s\n", ptr, "yooo whatup");
-//     printf ("%d\n", i);
-//     i = printf ("simon is %p\n%s\n", ptr, "yooo whatup");
-//     printf ("%d\n", i);
-//     i = ft_printf (" %r %%%");
-//     printf ("\n");
-//      i = ft_printf (NULL);
-//     printf ("\n");
-//     printf ("%d\n", i);
-//     printf ("\n");
-//     i = ft_printf ("simon is %%  \nbama%s\n", "hey");
-//     printf ("%d\n", i);
-//     i = ft_printf (NULL, "hey");
-//     printf ("%d\n", i);
-// }
