@@ -45,8 +45,10 @@ int	ft_printf(const char *str, ...)
 	int		len;
 	int		i;
 	va_list	tracker;
+	va_list	cpy;
 
 	va_start (tracker, str);
+	va_copy (cpy, tracker);
 	(1) && (len = 0, i = 0);
 	while (str[i])
 	{
@@ -55,7 +57,7 @@ int	ft_printf(const char *str, ...)
 			if (str[++i] == '%')
 				len += write(1, "%", 1);
 			if (str[i] == '#' || str[i] == '+' || str[i] == ' ')
-				len += ft_flags((char *)str, &i);
+				len += ft_flags((char *)str, &i, cpy);
 			if (ft_check(str[i]))
 				len += print_it(str[i], tracker);
 		}
