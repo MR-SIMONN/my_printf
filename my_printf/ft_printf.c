@@ -40,31 +40,44 @@ int	ft_check(char c)
 		|| c == 'x' || c == 'X' || c == 'p' || c == 'u');
 }
 
+int	ft_loop(const char *s, va_list t)
+{
+	int		i;
+	int		len;
+	va_list	cpy;
+
+	i = 0;
+	len = 0;
+	va_copy(cpy, t);
+	while (s[i])
+	{
+		if (s[i] == '%' && s[i + 1])
+		{
+			i++;
+			if (s[i] == '%')
+				len += write(1, "%", 1);
+			if (s[i] == '#' || s[i] == '+' || s[i] == ' ')
+				len += ft_flags((char *)s, &i, cpy);
+			if (ft_check(s[i]))
+				len += print_it(s[i], t);
+		}
+		else
+			len += write(1, &s[i], 1);
+		i++;
+	}
+	return (len);
+}
+
 int	ft_printf(const char *str, ...)
 {
 	int		len;
-	int		i;
 	va_list	tracker;
-	va_list	cpy;
 
+	if (write (1, 0, 0) == -1)
+		return (-1);
 	va_start (tracker, str);
-	va_copy (cpy, tracker);
-	(1) && (len = 0, i = 0);
-	while (str[i])
-	{
-		if (str[i] == '%' && str[i + 1])
-		{
-			if (str[++i] == '%')
-				len += write(1, "%", 1);
-			if (str[i] == '#' || str[i] == '+' || str[i] == ' ')
-				len += ft_flags((char *)str, &i, cpy);
-			if (ft_check(str[i]))
-				len += print_it(str[i], tracker);
-		}
-		else
-			len += write(1, &str[i], 1);
-		i++;
-	}
+	len = 0;
+	len += ft_loop(str, tracker);
 	va_end (tracker);
 	return (len);
 }
