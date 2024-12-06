@@ -37,11 +37,19 @@ bonus/%.o: bonus/%.c bonus/ft_printf_bonus.h
 	${CC} ${CFLAGS} -c $< -o $@
 
 clean:
+<<<<<<< HEAD
 	@${RM} ${OBJS} ${BOBJS}
 
+=======
+	@${RM} ${OBJS}
+>>>>>>> 075c71c40c3555f2154a63bbc6e5025c55247bcd
 fclean: clean
 	@${RM} ${NAME}
 
 re: fclean all
+<<<<<<< HEAD
 
 .PHONY: clean bonus
+=======
+.phony: clean
+>>>>>>> 075c71c40c3555f2154a63bbc6e5025c55247bcd

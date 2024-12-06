@@ -44,6 +44,7 @@ int	ft_loop(const char *s, va_list t)
 {
 	int		i;
 	int		len;
+<<<<<<< HEAD
 
 	i = 0;
 	len = 0;
@@ -59,6 +60,24 @@ int	ft_loop(const char *s, va_list t)
 				len += print_it(s[i], t);
 			else if (s[i] != '%')
 				len += write (1, &s[i], 1);
+=======
+	va_list	cpy;
+
+	i = 0;
+	len = 0;
+	va_copy(cpy, t);
+	while (s[i])
+	{
+		if (s[i] == '%' && s[i + 1])
+		{
+			i++;
+			if (s[i] == '%')
+				len += write(1, "%", 1);
+			if (s[i] == '#' || s[i] == '+' || s[i] == ' ')
+				len += ft_flags((char *)s, &i, cpy);
+			if (ft_check(s[i]))
+				len += print_it(s[i], t);
+>>>>>>> 075c71c40c3555f2154a63bbc6e5025c55247bcd
 		}
 		else
 			len += write(1, &s[i], 1);
