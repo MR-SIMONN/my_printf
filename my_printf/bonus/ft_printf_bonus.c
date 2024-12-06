@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 00:53:59 by moel-hai          #+#    #+#             */
-/*   Updated: 2024/12/05 01:48:14 by moel-hai         ###   ########.fr       */
+/*   Updated: 2024/12/06 03:42:30 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 int	print_it(char c, va_list t)
 {
@@ -40,7 +40,7 @@ int	ft_check(char c)
 		|| c == 'x' || c == 'X' || c == 'p' || c == 'u');
 }
 
-int	ft_loop(const char *s, va_list t)
+int	ft_loop(const char *s, va_list cpy, va_list t)
 {
 	int		i;
 	int		len;
@@ -55,6 +55,8 @@ int	ft_loop(const char *s, va_list t)
 		{
 			if (s[++i] == '%')
 				len += write(1, "%", 1);
+			if (s[i] == '#' || s[i] == '+' || s[i] == ' ')
+				len += ft_flags((char *)s, &i, cpy);
 			if (ft_check(s[i]))
 				len += print_it(s[i], t);
 			else if (s[i] != '%')
@@ -71,12 +73,14 @@ int	ft_printf(const char *str, ...)
 {
 	int		len;
 	va_list	tracker;
+	va_list	cpy;
 
 	if (write (1, 0, 0) == -1)
 		return (-1);
 	va_start (tracker, str);
+	va_copy (cpy, tracker);
 	len = 0;
-	len += ft_loop(str, tracker);
+	len += ft_loop(str, cpy, tracker);
 	va_end (tracker);
 	return (len);
 }
